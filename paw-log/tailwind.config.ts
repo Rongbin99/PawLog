@@ -9,8 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        pastelPurple: "#D8B4E2",  //pastel colour
       },
     },
   },
