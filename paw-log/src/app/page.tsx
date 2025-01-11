@@ -6,6 +6,7 @@ import Head from "next/head";
 const Home = () => {
   const [entries, setEntries] = useState<string[]>([]);
   const [petImage, setPetImage] = useState<string | null>(null);
+  const [isEditingImage, setIsEditingImage] = useState<boolean>(false);
 
   useEffect(() => {
     const savedPetImage = localStorage.getItem("petImage");
@@ -22,9 +23,14 @@ const Home = () => {
         const base64String = reader.result as string;
         localStorage.setItem("petImage", base64String);
         setPetImage(base64String);
+        setIsEditingImage(false);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleEditPicture = () => {
+    setIsEditingImage(true);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,16 +71,28 @@ const Home = () => {
       <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Track Your Pet's Daily Care</h2>
 
-        {petImage ? (
-          <div className="text-center mb-4">
-            <img src={petImage} alt="Pet" className="w-32 h-32 object-cover rounded-full mx-auto border" />
-          </div>
-        ) : (
-          <div className="text-center mb-4">
-            <label className="block text-gray-600 font-semibold">Upload Your Pet's Picture:</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          </div>
-        )}
+        <div className="text-center mb-4">
+          {petImage && !isEditingImage ? (
+            <>
+              <img
+                src={petImage}
+                alt="Pet"
+                className="w-32 h-32 object-cover rounded-full mx-auto border mb-4"
+              />
+              <button
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                onClick={handleEditPicture}
+              >
+                Change Picture
+              </button>
+            </>
+          ) : (
+            <div className="mb-4">
+              <label className="block text-gray-600 font-semibold">Upload Your Pet's Picture:</label>
+              <input type="file" accept="image/*" onChange={handleImageUpload} />
+            </div>
+          )}
+        </div>
 
         <form id="pet-tracker-form" className="flex flex-col" onSubmit={handleSubmit}>
           <div className="mb-4">
