@@ -1,101 +1,96 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from 'react';
+import Head from 'next/head';
+
+const Home = () => {
+  const [entries, setEntries] = useState<string[]>([]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const petName = (form.elements.namedItem('petName') as HTMLInputElement).value;
+    const food = (form.elements.namedItem('food') as HTMLInputElement).value || 'N/A';
+    const water = (form.elements.namedItem('water') as HTMLInputElement).value || 'N/A';
+    const pee = (form.elements.namedItem('pee') as HTMLInputElement).value || 'N/A';
+    const poo = (form.elements.namedItem('poo') as HTMLInputElement).value || 'N/A';
+    const medication = (form.elements.namedItem('medication') as HTMLInputElement).value || 'N/A';
+
+    const entryHTML = `
+      <div class="p-1 bb-1">
+        <strong>Pet Name:</strong> ${petName}<br>
+        <strong>Food Intake:</strong> ${food} g<br>
+        <strong>Water Intake:</strong> ${water} ml<br>
+        <strong>Pee Times:</strong> ${pee}<br>
+        <strong>Poop Times:</strong> ${poo}<br>
+        <strong>Medication:</strong> ${medication}<br>
+        <hr>
+      </div>
+    `;
+
+    setEntries([...entries, entryHTML]);
+    form.reset();
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
+      <Head>
+        <title>Pet Care Tracker</title>
+      </Head>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <header className="bg-green-500 text-white text-center py-4 flex justify-center items-center">
+        <h1>Pet Care Tracker</h1>
+      </header>
+
+      <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
+        <h2>Track Your Pet's Daily Care</h2>
+        <form id="pet-tracker-form" className="flex flex-col" onSubmit={handleSubmit}>
+          <div className="mb-1">
+            <label htmlFor="pet-name">Pet Name</label>
+            <input type="text" id="pet-name" name="petName" required />
+          </div>
+
+          <div className="mb-1">
+            <label htmlFor="food">Food Intake (g)</label>
+            <input type="number" id="food" name="food" placeholder="Enter amount in grams" />
+          </div>
+
+          <div className="mb-1">
+            <label htmlFor="water">Water Intake (ml)</label>
+            <input type="number" id="water" name="water" placeholder="Enter amount in milliliters" />
+          </div>
+
+          <div className="mb-1">
+            <label htmlFor="pee">Pee Times</label>
+            <input type="number" id="pee" name="pee" placeholder="Enter number of pee times" />
+          </div>
+
+          <div className="mb-1">
+            <label htmlFor="poo">Poop Times</label>
+            <input type="number" id="poo" name="poo" placeholder="Enter number of poop times" />
+          </div>
+
+          <div className="mb-1">
+            <label htmlFor="medication">Medication</label>
+            <textarea id="medication" name="medication" rows={3} placeholder="Enter medication details (if any)" />
+          </div>
+
+          <button type="submit" className="bg-green-500 text-white border-none py-3 px-6 rounded cursor-pointer hover:bg-green-600">
+            <p>Add Entry</p>
+          </button>
+        </form>
+
+        <div className="mt-8">
+          <h2 className="text-center text-green-600 text-xl mb-4">Daily Entries</h2>
+          <div id="entries" dangerouslySetInnerHTML={{ __html: entries.join('') }} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </div>
+
+      <footer className="text-center mt-8 text-gray-600">
+        <p>&copy; 2025 Pet Care Tracker. All Rights Reserved.</p>
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
