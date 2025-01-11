@@ -38,7 +38,7 @@ const Home = () => {
         <title>Pet Care Tracker</title>
       </Head>
 
-      <header className="bg-green-500 text-white text-center py-4 flex justify-center items-center">
+      <header className="bg-pastelPurple text-white text-center py-4 flex justify-center items-center">
         <h1>Pet Care Tracker</h1>
       </header>
 
@@ -75,7 +75,7 @@ const Home = () => {
             <textarea id="medication" name="medication" rows={3} placeholder="Enter medication details (if any)" />
           </div>
 
-          <button type="submit" className="bg-green-500 text-white border-none py-3 px-6 rounded cursor-pointer hover:bg-green-600">
+          <button type="submit" className="bg-pastelPurple text-white border-none py-3 px-6 rounded cursor-pointer hover:bg-green-600">
             <p>Add Entry</p>
           </button>
         </form>
