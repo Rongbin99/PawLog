@@ -5,6 +5,7 @@ import Head from "next/head";
 import Footer from "../../components/Footer";
 import ImageUpload from "../../components/ImageUpload";
 import { useRouter } from "next/navigation"; // For programmatic navigation
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 interface Pet {
   name: string;
@@ -18,12 +19,19 @@ const Home = () => {
 
   const router = useRouter(); // Next.js router for navigation
 
+  const { user, error, isLoading } = useUser();
+
   useEffect(() => {
-    const savedPetImage = localStorage.getItem("petImage");
-    if (savedPetImage) {
-      setPetImage(savedPetImage);
+    if (typeof window !== 'undefined') {
+      const savedPetImage = localStorage.getItem("petImage");
+      if (savedPetImage) {
+        setPetImage(savedPetImage);
+      }
     }
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,12 +57,12 @@ const Home = () => {
           <div className="flex items-center space-x-2 cursor-pointer">
             <div className="rounded-full p-1 hover:bg-transparent">
               <img
-                src={petImage || "/default-profile.png"}
+                src={user?.picture || "/default-profile.png"}
                 alt="Profile"
                 className="w-14 h-14 rounded-full border-2"
               />
             </div>
-            <span className="text-lg font-semibold">user.name || Account</span>
+            <span className="text-lg font-semibold">{user?.name || "Account"}</span>
           </div>
 
           {/* Dropdown Menu */}
