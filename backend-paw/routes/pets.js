@@ -2,40 +2,25 @@ const express = require("express");
 const router = express.Router();
 const Pet = require("../models/Pet");
 
-// Add a new pet
-router.post("/", async (req, res) => {
-    const { userId, name, image, hunger, thirst } = req.body;
-
-    if (!userId || !name || !image) {
-        return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    if (typeof hunger !== 'number' || typeof thirst !== 'number') {
-        return res.status(400).json({ message: "Hunger and thirst must be numbers" });
-    }
-
+// POST /pets - Create a new pet
+router.post('/', async (req, res) => {
+    const newPet = new Pet(req.body);
     try {
-        const pet = new Pet({ userId, name, image, hunger, thirst });
-        await pet.save();
-        res.status(201).json(pet);
+      const savedPet = await newPet.save();
+      res.status(201).json(savedPet); // Respond with the created pet
     } catch (error) {
-        console.error("Error saving pet:", error);
-        res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ message: 'Error creating pet', error });
     }
-});
+  });
 
-// Get pets for a user
-router.get("/:userId", async (req, res) => {
-    const { userId } = req.params;
-
+// GET /pets - Fetch all pets
+router.get('/', async (req, res) => {
     try {
-        console.log(`Fetching pets for userId: ${userId}`);
-        const pets = await Pet.find({ userId });
-        res.status(200).json(pets);
+      const pets = await Pet.find(); // Fetch all pets from the database
+      res.json(pets); // Send the pets as a JSON response
     } catch (error) {
-        console.error("Error fetching pets:", error);
-        res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: 'Error fetching pets', error });
     }
-});
+  });
 
 module.exports = router;

@@ -18,12 +18,17 @@ module.exports = {
 
         // Get the database and store the connection
         dbConnection = client.db("pawlog");  // Use the actual DB name here
-        cb();  // Callback after DB connection is established
+        cb(null);  // Callback after DB connection is established
       })
       .catch((err) => {
         console.error("Error connecting to MongoDB:", err);
         cb(err);  // Pass the error to the callback
       });
   },
-  getDb: () => dbConnection  // Function to retrieve the DB connection
+  getDb: () => {
+    if (!dbConnection) {
+      throw new Error("Database not initialized. Call connectToDb first.");
+    }
+    return dbConnection;  // Function to retrieve the DB connection
+  }
 };
