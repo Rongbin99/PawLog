@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 import ImageUpload from "../../components/ImageUpload";
 import { useRouter } from "next/navigation";
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { FaExclamationTriangle } from 'react-icons/fa'; // Import the warning icon
 
 interface Pet {
   name: string;
@@ -211,7 +212,10 @@ const Home = () => {
                       style={{ width: `${pet.hunger}%` }}
                     ></div>
                   </div>
-                  <p className="text-sm">{pet.hunger}%</p>
+                  <p className="text-sm text-gray-500">
+                  Hunger: {pet.hunger}%
+                  {pet.hunger < 25 && <FaExclamationTriangle className="inline text-red-500 ml-1" />}
+                </p>
                 </div>
                 <div className="mt-2">
                   <p className="text-sm font-medium">Thirst</p>
@@ -221,7 +225,10 @@ const Home = () => {
                       style={{ width: `${pet.thirst}%` }}
                     ></div>
                   </div>
-                  <p className="text-sm">{pet.thirst}%</p>
+                  <p className="text-sm">
+                    Thirst: {pet.thirst}%
+                    {pet.thirst < 25 && <FaExclamationTriangle className="inline text-red-500 ml-1" />}
+                  </p>
                 </div>
               </div>
             ))}
