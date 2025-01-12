@@ -38,36 +38,33 @@ const PetInfo: React.FC<PetFormProps> = ({ onSubmit }) => {
       </div>
 
       <div className="mb-4">
-        <span className="mr-2">🍲</span>
-        <label htmlFor="food" className="block font-semibold">Food Intake (g)</label>
-        <input type="number" id="food" name="food" placeholder="Enter amount in grams" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
+        <label htmlFor="food" className="block font-semibold">🍲 Food Intake (g)</label>
+        <input type="number" id="food" name="food" placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
       </div>
 
       <div className="mb-4">
-        <span className="mr-2">💧</span>
-        <label htmlFor="water" className="block font-semibold">Water Intake (ml)</label>
-        <input type="number" id="water" name="water" placeholder="Enter amount in milliliters" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
+        <label htmlFor="water" className="block font-semibold">💧 Water Intake (ml)</label>
+        <input type="number" id="water" name="water" placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
       </div>
 
       <div className="mb-4">
-        <span className="mr-2">🚽</span>
-        <label htmlFor="pee" className="block font-semibold">Pee Times</label>
-        <input type="number" id="pee" name="pee" placeholder="Enter number of pee times" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
+        <label htmlFor="pee" className="block font-semibold">🚽 Pee Times</label>
+        <input type="number" id="pee" name="pee" placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
       </div>
 
       <div className="mb-4">
-        <span className="mr-2">💩</span>
-        <label htmlFor="poo" className="block font-semibold">Poop Times</label>
-        <input type="number" id="poo" name="poo" placeholder="Enter number of poop times" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
+        <label htmlFor="poo" className="block font-semibold">💩 Poop Times</label>
+        <input type="number" id="poo" name="poo" placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
       </div>
 
       <div className="mb-4">
-        <span className="mr-2">💊</span>
-        <label htmlFor="medication" className="block font-semibold">Medication</label>
-        <textarea id="medication" name="medication" rows={3} placeholder="Enter medication details (if any)" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
+        <label htmlFor="medication" className="block font-semibold">💊 Medication</label>
+        <textarea id="medication" name="medication" rows={3} placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
       </div>
 
-      <button type="submit" className="bg-green-500 text-white py-3 px-6 rounded cursor-pointer hover:bg-green-600">Add Entry</button>
+      <button type="submit" className="bg-purple-600 text-white py-3 px-6 rounded hover:bg-purple-800">
+        <p>Add Entry</p>
+      </button>
     </form>
   );
 };

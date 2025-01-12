@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Footer from "../../components/Footer";
 import ImageUpload from "../../components/ImageUpload";
-import PetInfo from "../../components/PetInfo";
 import { useRouter } from "next/navigation"; // For programmatic navigation
 
 interface Pet {
@@ -97,7 +96,9 @@ const Home = () => {
         </div>
       </div>
 
-      <Footer />
+      <div className="flex justify-center items-center mt-8 mb-6 text-center">
+        <Footer />
+      </div>
     </div>
   );
 };
