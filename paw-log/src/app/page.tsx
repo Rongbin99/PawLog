@@ -37,8 +37,9 @@ const Home = () => {
     setPetImage(null);
   };
 
-  const handleProfileClick = (petName: string) => {
-    router.push("/pages/selectedPets"); // Navigate to /pages/selectedPets
+  const handleLogout = () => {
+    localStorage.removeItem("userToken"); // Simulate logout
+    router.push("/login");
   };
 
   return (
@@ -47,9 +48,54 @@ const Home = () => {
         <title>Pet Care Tracker</title>
       </Head>
 
-      <header className="bg-pastelPurple text-white text-center py-8">
-        <h1 className="text-4xl font-bold">🐾 Pet Care Tracker</h1>
-      </header>
+      <header className="bg-pastelPurple text-white flex justify-between items-center py-4 px-6">
+  <div className="relative group">
+    {/* Profile Button */}
+    <div className="flex items-center space-x-2 cursor-pointer">
+      <div className="rounded-full p-1 hover:bg-transparent">
+        <img
+          src={petImage || "/default-profile.png"}
+          alt="Profile"
+          className="w-14 h-14 rounded-full border-2"
+        />
+      </div>
+      <span className="text-lg font-semibold">Menu</span>
+    </div>
+
+    {/* Dropdown Menu */}
+    <div className="absolute left-0 mt-3 w-48 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-in-out z-10">
+      <div className="py-3">
+        <a
+          href="#"
+          className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg"
+          onClick={() => router.push("/profile")}
+        >
+          Profile
+        </a>
+        <a
+          href="#"
+          className="block px-6 py-3 text-gray-700 hover:bg-gray-100"
+          onClick={() => router.push("/register")}
+        >
+          Register
+        </a>
+        <a
+          href="#"
+          className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
+          onClick={handleLogout}
+        >
+          Logout
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <h1 className="text-4xl font-bold">🐾 Pet Care Tracker</h1>
+</header>
+
+
+
+
 
       <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Add Your Pet</h2>
@@ -67,14 +113,21 @@ const Home = () => {
           </div>
 
           {petImage ? (
-          <div className="text-center mb-4">
-            <img src={petImage} alt="Pet" className="w-32 h-32 object-cover rounded-full mx-auto border" />
-          </div>
-        ) : (
-          <ImageUpload onImageUpload={setPetImage} />
-        )}
+            <div className="text-center mb-4">
+              <img
+                src={petImage}
+                alt="Pet"
+                className="w-32 h-32 object-cover rounded-full mx-auto border"
+              />
+            </div>
+          ) : (
+            <ImageUpload onImageUpload={setPetImage} />
+          )}
 
-          <button type="submit" className="bg-purple-600 text-white py-3 px-6 rounded hover:bg-purple-700">
+          <button
+            type="submit"
+            className="bg-purple-600 text-white py-3 px-6 rounded hover:bg-purple-700"
+          >
             Add Pet
           </button>
         </form>
@@ -86,9 +139,13 @@ const Home = () => {
               <div
                 key={index}
                 className="cursor-pointer text-center"
-                onClick={() => handleProfileClick(pet.name)}
+                onClick={() => router.push("/pages/selectedPets")}
               >
-                <img src={pet.image} alt={pet.name} className="w-32 h-32 object-cover rounded-full mx-auto border" />
+                <img
+                  src={pet.image}
+                  alt={pet.name}
+                  className="w-32 h-32 object-cover rounded-full mx-auto border"
+                />
                 <p className="mt-2 text-lg font-semibold">{pet.name}</p>
               </div>
             ))}
