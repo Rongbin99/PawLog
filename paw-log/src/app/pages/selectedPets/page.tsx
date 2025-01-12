@@ -22,7 +22,21 @@ const SelectedPet = () => {
     }
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="text-center">
+          <img
+            src="../logo.png" // Your loading image
+            alt="Loading"
+            className="w-32 h-32 object-contain animate-pulse mx-auto"
+          />
+          <p className="mt-4 text-lg font-semibold text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <div>{error.message}</div>;
 
   const handleFormSubmit = (entryHTML: string) => {
@@ -39,6 +53,7 @@ const SelectedPet = () => {
         <title>Pet Care Tracker</title>
       </Head>
 
+      {/* Header and content go here */}
       <header className="bg-pastelPurple text-white flex justify-between items-center py-4 px-6">
         <div className="relative group">
           {/* Profile Button */}
@@ -50,15 +65,35 @@ const SelectedPet = () => {
                 className="w-14 h-14 rounded-full border-2"
               />
             </div>
-            <span className="text-lg font-semibold">{user?.name || "Account"}</span>
+            <span className="text-lg font-semibold">{user ? user.name : "Account"}</span>
           </div>
 
           {/* Dropdown Menu */}
           <div className="absolute left-0 mt-4 w-48 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-in-out z-10">
-            <div className="">
-              <a href="/api/auth/me" className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg">User Profile</a>
-              <a href="/api/auth/login" className="block px-6 py-3 text-gray-700 hover:bg-gray-100">Login</a>
-              <a href="/api/auth/logout" className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg">Logout</a>
+            <div>
+              {user ? (
+                <>
+                  <a
+                    href="/api/auth/me"
+                    className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg"
+                  >
+                    User Profile
+                  </a>
+                  <a
+                    href="/api/auth/logout"
+                    className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
+                  >
+                    Logout
+                  </a>
+                </>
+              ) : (
+                <a
+                  href="/api/auth/login"
+                  className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
+                >
+                  Login
+                </a>
+              )}
             </div>
           </div>
         </div>
