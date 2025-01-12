@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Head from "next/head";
+import { SocialIcon } from "react-social-icons";
+import ImageUpload from "../../components/ImageUpload";
+import PetInfo from "../../components/PetInfo";
 import { useRouter } from "next/navigation"; // For programmatic navigation
 
 interface Pet {
@@ -96,7 +99,8 @@ const Home = () => {
         </div>
       </div>
 
-      <footer className="text-center mt-8 text-gray-600">
+      <footer className="flex justify-center items-center mt-8 mb-6">
+        <SocialIcon url='https://github.com/Rongbin99/PawLog' style={{height: "30px", width: "30px", marginRight: "10px"}} />
         <p>&copy; 2025 Pet Care Tracker. All Rights Reserved.</p>
       </footer>
     </div>
