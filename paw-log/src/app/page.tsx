@@ -65,6 +65,19 @@ const Home = () => {
     setPetName("");
     setPetImage(null);
   };
+  const getGridClass = (length: number) => {
+    if (length === 1) return "grid-cols-1 place-items-center"; // 1 pet: centered
+    const rows = Math.ceil(length / 2); // Calculate rows dynamically
+    return `grid-cols-2 gap-4 grid-rows-${rows}`;
+  };
+
+  const getItemClass = (length: number, index: number) => {
+    if (length % 2 !== 0 && index === length - 1) {
+      // Center the last item if odd number of pets
+      return "col-span-2 place-self-center";
+    }
+    return "";
+  };
 
   return (
     <div>
@@ -73,6 +86,53 @@ const Home = () => {
       </Head>
 
       {/* Header and content go here */}
+      <header className="bg-pastelPurple text-white flex justify-between items-center py-4 px-6">
+        <div className="relative group">
+          {/* Profile Button */}
+          <div className="flex items-center space-x-2 cursor-pointer">
+            <div className="rounded-full p-1 hover:bg-transparent">
+              <img
+                src={user?.picture || "/default.jpg"}
+                alt="Profile"
+                className="w-14 h-14 rounded-full border-2"
+              />
+            </div>
+            <span className="text-lg font-semibold">{user ? user.name : "Account"}</span>
+          </div>
+
+          {/* Dropdown Menu */}
+          <div className="absolute left-0 mt-4 w-48 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-in-out z-10">
+            <div>
+              {user ? (
+                <>
+                  <a
+                    href="/api/auth/me"
+                    className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg"
+                  >
+                    User Profile
+                  </a>
+                  <a
+                    href="/api/auth/logout"
+                    className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
+                  >
+                    Logout
+                  </a>
+                </>
+              ) : (
+                <a
+                  href="/api/auth/login"
+                  className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
+                >
+                  Login
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <h1 className="text-4xl font-bold">🐾 Pet Care Tracker</h1>
+      </header>
+
       <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Add Your Pet</h2>
 
@@ -111,11 +171,12 @@ const Home = () => {
         {/* Pet list and progress bars */}
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4 text-center">Your Pets</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`grid ${getGridClass(pets.length)}`}>
             {pets.map((pet, index) => (
               <div
                 key={index}
-                className="cursor-pointer text-center bg-white rounded-lg p-4 shadow-md"
+                className={`cursor-pointer text-center ${getItemClass(pets.length, index)}`}
+                onClick={() => router.push("/pages/selectedPets")}
               >
                 <img
                   src={pet.image}
