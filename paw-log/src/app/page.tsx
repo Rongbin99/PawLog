@@ -193,7 +193,7 @@ const Home = () => {
               <div
                 key={index}
                 className={`cursor-pointer text-center ${getItemClass(pets.length, index)}`}
-                onClick={() => router.push("/pages/selectedPets")}
+                onClick={() => router.push(`/pages/selectedPets?petName=${encodeURIComponent(pet.name)}`)}
               >
                 <img
                   src={pet.image}

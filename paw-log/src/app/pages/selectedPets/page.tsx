@@ -11,6 +11,7 @@ import Link from 'next/link';
 const SelectedPet = () => {
   const [entries, setEntries] = useState<string[]>([]);
   const [petImage, setPetImage] = useState<string | null>(null);
+  const [petName, setPetName] = useState<string | null>(null);
   const [isEditingImage, setIsEditingImage] = useState<boolean>(false);
 
   const { user, error, isLoading } = useUser();
@@ -19,6 +20,11 @@ const SelectedPet = () => {
     const savedPetImage = localStorage.getItem("petImage");
     if (savedPetImage) {
       setPetImage(savedPetImage);
+    }
+    const searchParams = new URLSearchParams(window.location.search);
+    const savedPetName = searchParams.get("petName") || "Your Pet";
+    if (savedPetName) {
+      setPetName(savedPetName);
     }
   }, []);
 
@@ -45,6 +51,7 @@ const SelectedPet = () => {
 
   const handleEditPicture = () => {
     setIsEditingImage(true);
+    setPetImage(null);
   };
 
   return (
@@ -104,7 +111,7 @@ const SelectedPet = () => {
       </header>
 
       <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Track Your Pet's Daily Care</h2>
+        <h2 className="text-2xl font-semibold mb-4">Track {petName}'s Daily Care</h2>
 
         <div className="text-center mb-4">
           {petImage && !isEditingImage ? (
@@ -126,7 +133,7 @@ const SelectedPet = () => {
           )}
         </div>
 
-        <PetInfo onSubmit={handleFormSubmit} />
+        <PetInfo petName={petName} onSubmit={handleFormSubmit} />
 
         <div className="mt-8">
           <h2 className="text-center text-purple-600 text-xl mb-4">Daily Entries</h2>

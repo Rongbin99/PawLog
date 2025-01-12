@@ -4,16 +4,33 @@ interface PetFormProps {
   onSubmit: (entryHTML: string) => void;
 }
 
-const PetInfo: React.FC<PetFormProps> = ({ onSubmit }) => {
+const PetInfo: React.FC<PetFormProps> = ({ petName, onSubmit }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const petName = (form.elements.namedItem("petName") as HTMLInputElement).value;
     const food = (form.elements.namedItem("food") as HTMLInputElement).value || "N/A";
     const water = (form.elements.namedItem("water") as HTMLInputElement).value || "N/A";
     const pee = (form.elements.namedItem("pee") as HTMLInputElement).value || "N/A";
     const poo = (form.elements.namedItem("poo") as HTMLInputElement).value || "N/A";
     const medication = (form.elements.namedItem("medication") as HTMLInputElement).value || "N/A";
+
+    const entry = {
+      food,
+      water,
+      pee,
+      poo,
+      medication,
+      date: new Date().toLocaleString(),
+    };
+
+     // Retrieve existing entries from localStorage
+    const existingEntries = JSON.parse(localStorage.getItem("petEntries") || "[]");
+
+    // Add the new entry to the list
+    const updatedEntries = [...existingEntries, entry];
+    
+    // Store the updated list in localStorage
+    localStorage.setItem("petEntries", JSON.stringify(updatedEntries));
 
     const entryHTML = `
       <div class="p-4 bg-gray-100 border rounded-lg mb-4">
@@ -32,11 +49,6 @@ const PetInfo: React.FC<PetFormProps> = ({ onSubmit }) => {
 
   return (
     <form id="pet-tracker-form" className="space-y-4" onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label htmlFor="pet-name" className="block font-semibold">Pet Name</label>
-        <input type="text" id="pet-name" name="petName" className="border border-gray-200 rounded-md p-2 w-full" required />
-      </div>
-
       <div className="mb-4">
         <label htmlFor="food" className="block font-semibold">🍲 Food Intake (g)</label>
         <input type="number" id="food" name="food" placeholder="" className="ml-auto border border-gray-200 rounded-md p-2 w-full" />
