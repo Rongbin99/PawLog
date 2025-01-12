@@ -37,11 +37,6 @@ const Home = () => {
     setPetImage(null);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("userToken"); // Simulate logout
-    router.push("/login");
-  };
-
   return (
     <div>
       <Head>
@@ -49,53 +44,31 @@ const Home = () => {
       </Head>
 
       <header className="bg-pastelPurple text-white flex justify-between items-center py-4 px-6">
-  <div className="relative group">
-    {/* Profile Button */}
-    <div className="flex items-center space-x-2 cursor-pointer">
-      <div className="rounded-full p-1 hover:bg-transparent">
-        <img
-          src={petImage || "/default-profile.png"}
-          alt="Profile"
-          className="w-14 h-14 rounded-full border-2"
-        />
-      </div>
-      <span className="text-lg font-semibold">Menu</span>
-    </div>
+        <div className="relative group">
+          {/* Profile Button */}
+          <div className="flex items-center space-x-2 cursor-pointer">
+            <div className="rounded-full p-1 hover:bg-transparent">
+              <img
+                src={petImage || "/default-profile.png"}
+                alt="Profile"
+                className="w-14 h-14 rounded-full border-2"
+              />
+            </div>
+            <span className="text-lg font-semibold">user.name || Account</span>
+          </div>
 
-    {/* Dropdown Menu */}
-    <div className="absolute left-0 mt-3 w-48 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-in-out z-10">
-      <div className="py-3">
-        <a
-          href="#"
-          className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg"
-          onClick={() => router.push("/profile")}
-        >
-          Profile
-        </a>
-        <a
-          href="#"
-          className="block px-6 py-3 text-gray-700 hover:bg-gray-100"
-          onClick={() => router.push("/register")}
-        >
-          Register
-        </a>
-        <a
-          href="#"
-          className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
-          onClick={handleLogout}
-        >
-          Logout
-        </a>
-      </div>
-    </div>
-  </div>
+          {/* Dropdown Menu */}
+          <div className="absolute left-0 mt-4 w-48 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-in-out z-10">
+            <div className="">
+              <a href="/api/auth/me" className="block px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg">User Profile</a>
+              <a href="/api/auth/login" className="block px-6 py-3 text-gray-700 hover:bg-gray-100">Login</a>
+              <a href="/api/auth/logout" className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg">Logout</a>
+            </div>
+          </div>
+        </div>
 
-  <h1 className="text-4xl font-bold">🐾 Pet Care Tracker</h1>
-</header>
-
-
-
-
+        <h1 className="text-4xl font-bold">🐾 Pet Care Tracker</h1>
+      </header>
 
       <div className="max-w-2xl mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Add Your Pet</h2>
