@@ -23,13 +23,24 @@ const Home = () => {
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedPetImage = localStorage.getItem("petImage");
-      if (savedPetImage) {
-        setPetImage(savedPetImage);
-      }
-    }
-  }, []);
+    const fetchPets = async () => {
+        if (user) {
+            try {
+                const response = await fetch(`http://localhost:4000/pets/${user.sub}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch pets");
+                }
+
+                const userPets = await response.json();
+                setPets(userPets);
+            } catch (error) {
+                console.error("Error fetching pets:", error);
+            }
+        }
+    };
+
+  fetchPets();
+  }, [user]);
 
   if (isLoading) {
     return (
@@ -48,23 +59,44 @@ const Home = () => {
 
   if (error) return <div>{error.message}</div>;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!petName || !petImage) {
-      alert("Please enter a pet name and upload an image.");
-      return;
+        alert("Please enter a pet name and upload an image.");
+        return;
     }
-    const newPet: Pet = {
-      name: petName,
-      image: petImage,
-      hunger: Math.floor(Math.random() * 101),
-      thirst: Math.floor(Math.random() * 101),
-      lastUpdated: new Date(),
+
+    const newPet = {
+        userId: user?.sub, // Send the user's unique identifier
+        name: petName,
+        image: petImage,
+        hunger: Math.floor(Math.random() * 101),
+        thirst: Math.floor(Math.random() * 101),
     };
-    setPets([...pets, newPet]);
+
+    try {
+        const response = await fetch("http://localhost:4000/pets", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newPet),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to save pet data");
+        }
+
+        const savedPet = await response.json();
+        setPets([...pets, savedPet]);
+    } catch (error) {
+        console.error("Error saving pet:", error);
+    }
+
     setPetName("");
     setPetImage(null);
   };
+
   const getGridClass = (length: number) => {
     if (length === 1) return "grid-cols-1 place-items-center"; // 1 pet: centered
     const rows = Math.ceil(length / 2); // Calculate rows dynamically
