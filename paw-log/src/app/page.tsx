@@ -92,7 +92,7 @@ const Home = () => {
           <div className="flex items-center space-x-2 cursor-pointer">
             <div className="rounded-full p-1 hover:bg-transparent">
               <img
-                src={user?.picture || "/default-profile.png"}
+                src={user?.picture || "/default.jpg"}
                 alt="Profile"
                 className="w-14 h-14 rounded-full border-2"
               />
