@@ -48,7 +48,7 @@ const SelectedPet = () => {
                 className="w-32 h-32 object-cover rounded-full mx-auto border mb-4"
               />
               <button
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-800"
                 onClick={handleEditPicture}
               >
                 Change Picture
@@ -67,7 +67,9 @@ const SelectedPet = () => {
         </div>
       </div>
 
-      <Footer />
+      <div className="flex justify-center items-center mt-8 mb-6 text-center">
+        <Footer />
+      </div>
     </div>
   );
 };
