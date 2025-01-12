@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // MongoDB connection details
-const uri = "mongodb+srv://rongbin99:deltahacks12345@pawlog.snfxa.mongodb.net/?retryWrites=true&w=majority&appName=PawLog";
+const uri = "REDACTED";
 
 let dbConnection;  // This will hold the DB connection object
 
