@@ -54,6 +54,11 @@ const SelectedPet = () => {
     setPetImage(null);
   };
 
+  const handleLogout = () => {
+    localStorage.clear(); // Clear localStorage
+    window.location.href = "/api/auth/logout"; // Redirect to the logout endpoint
+  };
+
   return (
     <div>
       <Head>
@@ -86,12 +91,12 @@ const SelectedPet = () => {
                   >
                     User Profile
                   </a>
-                  <a
-                    href="/api/auth/logout"
-                    className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
                   >
                     Logout
-                  </a>
+                  </button>
                 </>
               ) : (
                 <a
