@@ -23,12 +23,11 @@ const Home = () => {
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedPetImage = localStorage.getItem("petImage");
-      if (savedPetImage) {
-        setPetImage(savedPetImage);
-      }
-    }
+    const fetchPets = () => {
+      const storedPets = JSON.parse(localStorage.getItem("pets") || "[]");
+      setPets(storedPets);
+  };
+  fetchPets();
   }, []);
 
   if (isLoading) {
@@ -61,7 +60,18 @@ const Home = () => {
       thirst: Math.floor(Math.random() * 101),
       lastUpdated: new Date(),
     };
-    setPets([...pets, newPet]);
+
+    // Retrieve existing pets from localStorage
+    const existingPets = JSON.parse(localStorage.getItem("pets") || "[]");
+
+    // Add the new pet to the list
+    const updatedPets = [...existingPets, newPet];
+
+    // Store the updated list in localStorage
+    localStorage.setItem("pets", JSON.stringify(updatedPets));
+
+    // Update the state
+    setPets(updatedPets);
     setPetName("");
     setPetImage(null);
   };
@@ -78,6 +88,11 @@ const Home = () => {
       return "col-span-2 place-self-center";
     }
     return "";
+  };
+
+  const handleLogout = () => {
+    localStorage.clear(); // Clear localStorage
+    window.location.href = "/api/auth/logout"; // Redirect to the logout endpoint
   };
 
   return (
@@ -112,12 +127,12 @@ const Home = () => {
                   >
                     User Profile
                   </a>
-                  <a
-                    href="/api/auth/logout"
-                    className="block px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-6 py-3 text-gray-700 hover:bg-red-100 rounded-b-lg"
                   >
                     Logout
-                  </a>
+                  </button>
                 </>
               ) : (
                 <a
