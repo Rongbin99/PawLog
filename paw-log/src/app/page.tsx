@@ -13,7 +13,7 @@ interface Pet {
   image: string;
   hunger: number;
   thirst: number;
-  lastUpdated: Date;
+  lastUpdated: string;
 }
 
 const Home = () => {
@@ -59,7 +59,7 @@ const Home = () => {
       image: petImage,
       hunger: Math.floor(Math.random() * 101),
       thirst: Math.floor(Math.random() * 101),
-      lastUpdated: new Date(),
+      lastUpdated: new Date().toLocaleString(),
     };
 
     // Retrieve existing pets from localStorage

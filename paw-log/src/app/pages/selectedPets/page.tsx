@@ -118,7 +118,7 @@ const SelectedPet = () => {
                 className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-800"
                 onClick={handleEditPicture}
               >
-                Change Picture
+                Remove Picture
               </button>
             </>
           ) : (
