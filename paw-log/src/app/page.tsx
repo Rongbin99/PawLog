@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import { SocialIcon } from "react-social-icons";
+import Footer from "../../components/Footer";
 import ImageUpload from "../../components/ImageUpload";
 import PetInfo from "../../components/PetInfo";
 import { useRouter } from "next/navigation"; // For programmatic navigation
@@ -19,16 +19,12 @@ const Home = () => {
 
   const router = useRouter(); // Next.js router for navigation
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPetImage(reader.result as string); // Save base64 image
-      };
-      reader.readAsDataURL(file);
+  useEffect(() => {
+    const savedPetImage = localStorage.getItem("petImage");
+    if (savedPetImage) {
+      setPetImage(savedPetImage);
     }
-  };
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -71,11 +67,13 @@ const Home = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block font-semibold">Upload Pet Picture</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {petImage && <img src={petImage} alt="Pet preview" className="mt-2 w-32 h-32 object-cover rounded-full border" />}
+          {petImage ? (
+          <div className="text-center mb-4">
+            <img src={petImage} alt="Pet" className="w-32 h-32 object-cover rounded-full mx-auto border" />
           </div>
+        ) : (
+          <ImageUpload onImageUpload={setPetImage} />
+        )}
 
           <button type="submit" className="bg-purple-600 text-white py-3 px-6 rounded hover:bg-purple-700">
             Add Pet
@@ -99,10 +97,7 @@ const Home = () => {
         </div>
       </div>
 
-      <footer className="flex justify-center items-center mt-8 mb-6">
-        <SocialIcon url='https://github.com/Rongbin99/PawLog' style={{height: "30px", width: "30px", marginRight: "10px"}} />
-        <p>&copy; 2025 Pet Care Tracker. All Rights Reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

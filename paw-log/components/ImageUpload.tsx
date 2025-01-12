@@ -19,7 +19,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
   };
 
   return (
-    <div className="flex flex-colitems-center mb-4">
+    <div className="flex flex-col items-center mb-4">
       <label className="text-gray-600 font-semibold mr-4">Upload Your Pet's Picture:</label>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
     </div>
